@@ -7,7 +7,8 @@
     "scripts": {
         "test": "echo \"Test completed !!\"",
         "lint": "echo \"Lint completed !!\"",
-        "build": "echo \"Build completed !!\""
+        "build": "echo \"Build completed !!\"",
+        "it": "release --ci"
     },
     "repository": {
         "type": "git",
@@ -25,5 +26,8 @@
     ],
     "dependencies": {
         "humanize-ms": "^1.2.1"
+    },
+    "devDependencies": {
+        "release-it": "^14.4.1"
     }
 }
