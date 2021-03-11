@@ -25,3 +25,4 @@ jobs:
     - run: node ./scripts/publish.js
       env:
         BRANCH_NAME: ${{github.event.release.target_commitish}}
+        TAG_NAME: ${{github.event.release.tag_name}}
