@@ -8,7 +8,7 @@
         "test": "echo \"Test completed !!\"",
         "lint": "echo \"Lint completed !!\"",
         "build": "echo \"Build completed !!\"",
-        "release": "release-it --ci"
+        "release": "release-it --ci --npm.ignoreVersion"
     },
     "repository": {
         "type": "git",
