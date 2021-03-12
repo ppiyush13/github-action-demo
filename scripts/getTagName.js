@@ -1,6 +1,9 @@
 
+import got from 'got';
 import { InvalidTagForMain, InvalidTagForNext, InvalidTagForPrevious, InvalidBranchingStrategy, ghUrl,
             Main, Master, NextBranch, Latest, NextTag } from './constants';
+
+
 const matchesLatest = str => str.match(/^v[\d]+.[\d]+.[\d]+$/);
 const matchesNext = str => str.match(/^v[\d]+.[\d]+.[\d]+-rc.[\d]+$/);
 const previousVersionBranch = str => str.match(/^v[\d]+$/);
@@ -9,10 +12,18 @@ const getVersionFromPreviousBranch = str => str.match(/^v([\d]+)$/);
 
 const branchExits = async (branch) => {
     const repo = process.env.REPO;
-    const { status } = await fetch(
-        ghUrl(repo, branch)
-    );
-    return status === 200;
+    try {
+        const { statusCode } = await got(ghUrl(repo, branch));
+        return statusCode === 200;
+    }
+    catch(ex) {
+        if(ex.response && ex.response.statusCode === 404) {
+            return false;
+        }
+        else {
+            throw ex;
+        }
+    }
 }
 
 export const getTagName = async () => {

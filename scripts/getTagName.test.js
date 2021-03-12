@@ -1,10 +1,10 @@
-import fetchMock from 'fetch-mock-jest';
+import nock from 'nock';
 import mockedEnv from 'mocked-env';
 import { getTagName } from './getTagName';
 import { ghUrl, InvalidTagForMain, InvalidTagForNext, InvalidTagForPrevious, InvalidBranchingStrategy } from './constants';
 
 describe('testing publisher module positive scenarios', () => {
-    afterEach(() => fetchMock.reset());
+    afterEach(() => nock.cleanAll());
     const { repo, url } = {
         repo: 'owner/repo',
         url: ghUrl('owner/repo', 'next'),
@@ -44,7 +44,10 @@ describe('testing publisher module positive scenarios', () => {
             BRANCH_NAME: branch,
             TAG_NAME: tag,
         });
-        fetchMock.get(url, nextBranchExists ? 200 : 404);
+
+        nock('https://api.github.com/repos/owner/repo')
+            .get('/branches/next') 
+            .reply(nextBranchExists ? 200 : 404);
 
         await expect(getTagName()).resolves.toEqual(expectedDistTags);
     });
