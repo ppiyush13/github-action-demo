@@ -1,12 +1,12 @@
 {
     "name": "github-action-demo",
-    "version": "3.0.20",
+    "version": "4.0.0-rc.3",
     "description": "",
     "main": "index.js",
     "module": "./dist/index.js",
     "scripts": {
         "jest": "jest",
-        "test": "echo \"Test completed !!\"",
+        "test": "echo \"Test cases are diverged henceforth !!\"",
         "lint": "echo \"Lint completed !!\"",
         "build": "echo \"Build completed !!\"",
         "release": "release-it --ci --npm.ignoreVersion",
