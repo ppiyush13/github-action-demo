@@ -6,8 +6,8 @@ import { getTagName } from './getTagName';
     console.log('NPM version:', shell.exec(`npm -v`));
 
     const distTagNames = await getTagName();
-    const version = shell.exec(`node -p "require('./package.json').version"`);
-    const name = shell.exec(`node -p "require('./package.json').name"`);
+    const version = shell.exec(`node -p "require('./package.json').version"`).trim();
+    const name = shell.exec(`node -p "require('./package.json').name"`).trim();
 
     const commands = distTagNames.map(tag => {
         return `npm dist-tag add ${name}@${version} ${tag}`;
