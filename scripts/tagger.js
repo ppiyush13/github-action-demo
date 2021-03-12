@@ -6,13 +6,16 @@ import { getTagName } from './getTagName';
     const version = shell.exec(`node -p "require('./package.json').version"`).trim();
     const name = shell.exec(`node -p "require('./package.json').name"`).trim();
 
-    const commands = distTagNames.map(tag => {
-        return `npm dist-tag add ${name}@${version} ${tag}`;
+    const firstDistTag = distTagNames.shift();
+    shell.exec(`npm publish --tag ${firstDistTag}`);
+
+    distTagNames.map(tag => {
+        shell.exec(`npm dist-tag add ${name}@${version} ${tag}`);
     });
 
-    console.log(commands);
+    // console.log(commands);
 
-    const result = commands.map(command => shell.exec(command));
-    console.log(result);
+    // const result = commands.map(command => shell.exec(command));
+    // console.log(result);
 
 })();
