@@ -36,3 +36,4 @@ jobs:
         BRANCH_NAME: ${{github.event.release.target_commitish}}
         TAG_NAME: ${{github.event.release.tag_name}}
         REPO: ${{github.repository}}
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
