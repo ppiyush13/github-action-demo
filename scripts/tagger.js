@@ -15,4 +15,7 @@ import { getTagName } from './getTagName';
 
     console.log(commands);
 
+    const result = commands.map(command => shell.exec(command));
+    console.log(result);
+
 })();
