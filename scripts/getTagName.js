@@ -33,8 +33,8 @@ export const getTagName = async () => {
     if([Main, Master].includes(branchName)) {
         if(matchesLatest(tagName)) {
             return await branchExits(NextBranch)
-                ? [Latest]
-                : [Latest, NextTag];
+                ? []
+                : [NextTag];
         }
         throw new Error(InvalidTagForMain);
     }

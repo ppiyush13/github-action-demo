@@ -15,13 +15,13 @@ describe('testing publisher module positive scenarios', () => {
             branch: 'main',
             tag: 'v1.0.13',
             nextBranchExists: true,
-            expectedDistTags: ['latest'],
+            expectedDistTags: [],
         },
         {
             branch: 'master',
             tag: 'v1.0.13',
             nextBranchExists: false,
-            expectedDistTags: ['latest', 'next'],
+            expectedDistTags: ['next'],
         },
         {
             branch: 'v5',
