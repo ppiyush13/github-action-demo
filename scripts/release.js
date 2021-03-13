@@ -4,16 +4,14 @@ import { getTagName } from './getTagName';
 shell.config.fatal = true;
 
 const npmVersion = () => {
-    try {
-        const tagName = process.env.TAG_NAME;
-        shell.exec(`npm version ${tagName}`);
-    }
-    catch(ex) {
-        console.log('(');
-        console.log('Error:', ex.message);
-        console.log(')');
-        throw ex;
-    }
+    const tagName = process.env.TAG_NAME;
+    shell.exec(`npm version ${tagName} --no-git-tag-version`);
+};
+
+const gitTag = () => {
+    const tagName = process.env.TAG_NAME;
+    const tagVersion = tagName.substr(1);
+    shell.exec(`git tag ${tagName} -m ${tagVersion}`);
 };
 
 (async () => {
@@ -25,10 +23,17 @@ const npmVersion = () => {
     const firstDistTag = distTagNames.shift();
     shell.exec(`npm publish --tag ${firstDistTag}`);
 
-    distTagNames.map(tag => {
-        shell.exec(`npm dist-tag add ${name}@${version} ${tag}`);
-    });
+    gitTag();
 
+    try {
+        distTagNames.map(tag => {
+            shell.exec(`npm dist-tag add ${name}@${version} ${tag}`);
+        });
+    }
+    catch(ex) {
+        console.log('Dist-tagging failed, please consider doing it manually');
+    }
+    
 })();
 
 process.on('uncaughtException', error => {
