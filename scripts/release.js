@@ -1,6 +1,11 @@
 import shell from 'shelljs';
 import { getTagName } from './getTagName';
 
+const npmVersion = () => {
+    const tagName = process.env.TAG_NAME;
+    shell.exec(`npm version ${tagName}`);
+};
+
 (async () => {
     npmVersion();
     const distTagNames = await getTagName();
@@ -16,7 +21,10 @@ import { getTagName } from './getTagName';
 
 })();
 
-const npmVersion = () => {
-    const tagName = process.env.TAG_NAME;
-    shell.exec(`npm version ${tagName}`);
-};
+process.on('uncaughtException', error => {
+    process.exit(1);
+});
+
+process.on('unhandledRejection', error => {
+    process.exit(1);
+});
