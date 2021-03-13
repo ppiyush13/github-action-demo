@@ -9,8 +9,7 @@
         "test": "echo \"Test completed !!\"",
         "lint": "echo \"Lint completed !!\"",
         "build": "echo \"Build completed !!\"",
-        "release": "release-it --ci --npm.ignoreVersion",
-        "dist:tag": "node -r esm scripts/tagger.js"
+        "release": "node -r esm scripts/release.js"
     },
     "repository": {
         "type": "git",

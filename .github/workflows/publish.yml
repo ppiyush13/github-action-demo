@@ -5,7 +5,7 @@ on:
     types: [published]
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -17,12 +17,11 @@ jobs:
         node-version: 14.x
         registry-url: https://registry.npmjs.org/
     - run: npm ci
-    - run: git config --global user.name "Github Actions"
-    - run: git config --global user.email "actions@users.noreply.github.com"
+    - run: git config --global user.name "github-actions[bot]"
+    - run: git config --global user.email "github-actions[bot]@users.noreply.github.com"
     - run: npm run build
     - run: npm test
     - run: npm version ${{ github.event.release.tag_name }}
-    - run: npm publish
       env:
         # Use a token to publish to NPM. See below for how to set it up
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -31,7 +30,7 @@ jobs:
       env:
         # The secret is passed automatically. Nothing to configure.
         github-token: ${{ secrets.GITHUB_TOKEN }}
-    - run: npm run dist:tag
+    - run: npm run release
       env:
         BRANCH_NAME: ${{github.event.release.target_commitish}}
         TAG_NAME: ${{github.event.release.tag_name}}
