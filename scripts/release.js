@@ -13,9 +13,4 @@ import { getTagName } from './getTagName';
         shell.exec(`npm dist-tag add ${name}@${version} ${tag}`);
     });
 
-    // console.log(commands);
-
-    // const result = commands.map(command => shell.exec(command));
-    // console.log(result);
-
 })();
