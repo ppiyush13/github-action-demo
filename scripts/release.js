@@ -9,9 +9,14 @@ const npmVersion = () => {
 };
 
 const gitTag = () => {
-    const tagName = process.env.TAG_NAME;
-    const tagVersion = tagName.substr(1);
-    shell.exec(`git tag ${tagName} -m ${tagVersion}`);
+    try {
+        const tagName = process.env.TAG_NAME;
+        const tagVersion = tagName.substr(1);
+        shell.exec(`git tag ${tagName} -m ${tagVersion}`);
+    }
+    catch {
+        console.log('Tagging failed');
+    }
 };
 
 (async () => {
