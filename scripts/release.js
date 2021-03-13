@@ -1,6 +1,10 @@
 import shell from 'shelljs';
 import { getTagName } from './getTagName';
 
+shell.config = {
+    fatal: true,
+};
+
 const npmVersion = () => {
     const tagName = process.env.TAG_NAME;
     shell.exec(`npm version ${tagName}`);
