@@ -1,48 +1,28 @@
-import shell from 'shelljs';
-import { getTagName } from './getTagName';
-import { TagAlreadyExistsError } from './constants';
-
-shell.config.fatal = true;
-
-const npmVersion = async() => {
-    const tagName = process.env.TAG_NAME;
-    try {
-        shell.exec(`npm version ${tagName}`);
-    }
-    catch(ex) {
-        if(TagAlreadyExistsError(tagName, ex.message)) {
-            return ;
-        }
-        else {
-            throw ex;
-        }
-    }
-};
+import { assertBranchingStrategy } from './assert/assertBranchingStrategy';
+import { resolveTagNames } from './resolveTagNames';
+import { npmVersion } from './step.npm-version';
+import { publish } from './step.publish';
+import { applyDistTags } from './step.dist-tag';
+import { handleGlobalException } from './globalException';
 
 (async () => {
-    npmVersion();
-    const distTagNames = await getTagName();
-    const version = shell.exec(`node -p "require('./package.json').version"`).trim();
-    const name = shell.exec(`node -p "require('./package.json').name"`).trim();
-
-    const firstDistTag = distTagNames.shift();
-    shell.exec(`npm publish --tag ${firstDistTag}`);
-
     try {
-        distTagNames.map(tag => {
-            shell.exec(`npm dist-tag add ${name}@${version} ${tag}`);
-        });
+        assertBranchingStrategy();
+
+        /** verify branching strategy and get all npm dist-tags */
+        const [publishDistTag, ...otherDistTag] = await resolveTagNames();
+        
+        /** run: npm version */
+        npmVersion();
+
+        /** run: npm publish */
+        publish(publishDistTag);
+
+        /** run: npm dist-tag add */
+        applyDistTags(otherDistTag);
     }
     catch(ex) {
-        console.log('Dist-tagging failed, please consider doing it manually');
+        /** log error and exit */
+        handleGlobalException(ex);
     }
-    
 })();
-
-process.on('uncaughtException', error => {
-    process.exit(1);
-});
-
-process.on('unhandledRejection', error => {
-    process.exit(1);
-});

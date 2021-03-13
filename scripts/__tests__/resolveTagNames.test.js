@@ -1,7 +1,7 @@
 import nock from 'nock';
 import mockedEnv from 'mocked-env';
-import { getTagName } from './getTagName';
-import { ghUrl, InvalidTagForMain, InvalidTagForNext, InvalidTagForPrevious, InvalidBranchingStrategy } from './constants';
+import { resolveTagNames } from '../resolveTagNames';
+import { ghUrl, InvalidTagForMain, InvalidTagForNext, InvalidTagForPrevious, InvalidBranchingStrategy } from '../constants';
 
 describe('testing publisher module positive scenarios', () => {
     afterEach(() => nock.cleanAll());
@@ -38,7 +38,7 @@ describe('testing publisher module positive scenarios', () => {
             tag: 'v3.0.1',
             expectedDistTags: ['latest-3'],
         },
-    ])('Pos: Testing getTagName function', async ({ branch, tag, nextBranchExists, expectedDistTags }) => {
+    ])('Pos: Testing resolveTagNames function', async ({ branch, tag, nextBranchExists, expectedDistTags }) => {
         mockedEnv({
             REPO: repo,
             BRANCH_NAME: branch,
@@ -49,7 +49,7 @@ describe('testing publisher module positive scenarios', () => {
             .get('/branches/next') 
             .reply(nextBranchExists ? 200 : 404);
 
-        await expect(getTagName()).resolves.toEqual(expectedDistTags);
+        await expect(resolveTagNames()).resolves.toEqual(expectedDistTags);
     });
 
     it.each([
@@ -98,11 +98,11 @@ describe('testing publisher module positive scenarios', () => {
             tag: 'v5.0.0',
             expectedError: InvalidBranchingStrategy('5'),
         },
-    ])('Neg: Testing getTagName function', async ({ branch, tag, expectedError }) => {
+    ])('Neg: Testing resolveTagNames function', async ({ branch, tag, expectedError }) => {
         mockedEnv({
             BRANCH_NAME: branch,
             TAG_NAME: tag,
         });
-        await expect(getTagName()).rejects.toThrow(expectedError);
+        await expect(resolveTagNames()).rejects.toThrow(expectedError);
     });
 });
