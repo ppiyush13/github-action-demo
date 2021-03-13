@@ -2,6 +2,7 @@ import shell from 'shelljs';
 import { getTagName } from './getTagName';
 
 (async () => {
+    npmVersion();
     const distTagNames = await getTagName();
     const version = shell.exec(`node -p "require('./package.json').version"`).trim();
     const name = shell.exec(`node -p "require('./package.json').name"`).trim();
@@ -14,3 +15,8 @@ import { getTagName } from './getTagName';
     });
 
 })();
+
+const npmVersion = () => {
+    const tagName = process.env.TAG_NAME;
+    shell.exec(`npm version ${tagName}`);
+};

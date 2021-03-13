@@ -21,18 +21,12 @@ jobs:
     - run: git config --global user.email "github-actions[bot]@users.noreply.github.com"
     - run: npm run build
     - run: npm test
-    - run: npm version ${{ github.event.release.tag_name }} --no-git-tag-version
-      env:
-        # Use a token to publish to NPM. See below for how to set it up
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-    # push the version changes to GitHub
-    - run: git push
-      env:
-        # The secret is passed automatically. Nothing to configure.
-        github-token: ${{ secrets.GITHUB_TOKEN }}
     - run: npm run release
       env:
         BRANCH_NAME: ${{github.event.release.target_commitish}}
         TAG_NAME: ${{github.event.release.tag_name}}
         REPO: ${{github.repository}}
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    - run: git push
+      env:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
