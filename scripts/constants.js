@@ -14,3 +14,9 @@ export const NextBranch = 'next';
 /** tags */
 export const Latest = 'latest';
 export const NextTag = 'next';
+
+/** error */
+export const TagAlreadyExistsError = (tagName, ex) => {
+    return new RegExp(`npm ERR! fatal: tag '${tagName}' already exists`)
+        .test(ex);
+};

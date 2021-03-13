@@ -1,21 +1,21 @@
 import shell from 'shelljs';
 import { getTagName } from './getTagName';
+import { TagAlreadyExistsError } from './constants';
 
 shell.config.fatal = true;
 
-const npmVersion = () => {
+const npmVersion = async() => {
     const tagName = process.env.TAG_NAME;
-    shell.exec(`npm version ${tagName} --no-git-tag-version`);
-};
-
-const gitTag = () => {
     try {
-        const tagName = process.env.TAG_NAME;
-        const tagVersion = tagName.substr(1);
-        shell.exec(`git tag ${tagName} -m ${tagVersion}`);
+        shell.exec(`npm version ${tagName}`);
     }
-    catch {
-        console.log('Tagging failed');
+    catch(ex) {
+        if(TagAlreadyExistsError(tagName, ex.message)) {
+            return ;
+        }
+        else {
+            throw ex;
+        }
     }
 };
 
@@ -27,8 +27,6 @@ const gitTag = () => {
 
     const firstDistTag = distTagNames.shift();
     shell.exec(`npm publish --tag ${firstDistTag}`);
-
-    gitTag();
 
     try {
         distTagNames.map(tag => {
