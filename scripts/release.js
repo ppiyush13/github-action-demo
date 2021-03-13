@@ -9,7 +9,10 @@ const npmVersion = () => {
         shell.exec(`npm version ${tagName}`);
     }
     catch(ex) {
-        console.log(ex.message);
+        console.log('(');
+        console.log('Error:', ex.message);
+        console.log(')');
+        throw ex;
     }
 };
 
