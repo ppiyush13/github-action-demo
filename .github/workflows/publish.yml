@@ -30,7 +30,7 @@ jobs:
       env:
         # The secret is passed automatically. Nothing to configure.
         github-token: ${{ secrets.GITHUB_TOKEN }}
-    - run: npm run dist:tag
+    - run: npm run release
       env:
         BRANCH_NAME: ${{github.event.release.target_commitish}}
         TAG_NAME: ${{github.event.release.tag_name}}
