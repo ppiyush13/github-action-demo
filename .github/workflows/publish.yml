@@ -21,8 +21,7 @@ jobs:
     - run: git config --global user.email "github-actions[bot]@users.noreply.github.com"
     - run: npm run build
     - run: npm test
-    - run: npm version ${{ github.event.release.tag_name }}
-      continue-on-error: true
+    - run: npm version ${{ github.event.release.tag_name }} --no-git-tag-version
       env:
         # Use a token to publish to NPM. See below for how to set it up
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
