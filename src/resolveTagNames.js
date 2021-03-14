@@ -1,6 +1,5 @@
 
-import { Branch, Tag, LegacyBranch, previousVersionBranch } from './constants';
-import { throwError } from './error';
+import { Branch, Tag, LegacyBranch } from './constants';
 import { getDistTagVersion } from './dist-tags';
 
 export const resolveTagNames = () => {
@@ -24,8 +23,5 @@ export const resolveTagNames = () => {
     else if(LegacyBranch.matchVersion(branchName)) {
         const version = LegacyBranch.getVersion(branchName);
         return [ `${Tag.latest}-${version}` ];
-    }
-    else {
-        throwError('invalidBranchingStrategy');
     }
 }

@@ -81,6 +81,19 @@ describe('testing branching strategy', () => {
             ],
         },
         {
+            branch: 'main',
+            tag: 'v3.5.2',
+            previousDistTags: {
+                latest: '3.5.1',
+                next: '4.0.0-rc.4',
+            },
+            commands: [
+                `node -p "require('./package.json').name"`,
+                "npm version v3.5.2",
+                "npm publish --tag latest",
+            ],
+        },
+        {
             branch: 'next',
             tag: 'v3.0.0-rc.0',
             previousDistTags: {
@@ -111,7 +124,6 @@ describe('testing branching strategy', () => {
         mockedEnv({
             BRANCH_NAME: branch,
             TAG_NAME: tag,
-            REPO: 'owner/repo',
         });
         const getCommandStack = mockShell({
             [`node -p "require('./package.json').name"`]: 'demo-package',

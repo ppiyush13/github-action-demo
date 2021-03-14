@@ -110,7 +110,6 @@ describe('testing branching and tag strategy', () => {
         mockedEnv({
             BRANCH_NAME: branch,
             TAG_NAME: tag,
-            REPO: 'owner/repo',
         });
         const getCommandStack = mockShell({
             [`node -p "require('./package.json').name"`]: 'demo-package',
