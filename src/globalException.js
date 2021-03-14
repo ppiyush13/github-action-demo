@@ -1,7 +1,7 @@
 
 export const handleGlobalException = ex => {
     console.error('Global exception');
-    console.error(err);
+    console.error(ex);
     process.exit(1);
 };
 
