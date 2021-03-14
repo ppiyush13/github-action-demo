@@ -8,9 +8,9 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-    - run: echo "tag name should be same as tag version"
-    - run: exit 1
-        if: github.event.release.tag_name != github.event.release.name
+    - if: github.event.release.tag_name != github.event.release.name
+      run: echo "tag name should be same as tag version"
+      run: exit 1
     - uses: actions/checkout@v2
       with:
         ref: ${{ github.event.release.target_commitish }}
