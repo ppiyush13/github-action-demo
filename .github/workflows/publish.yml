@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - if: github.event.release.tag_name != github.event.release.name
+      run: echo "Checking tags"
       steps:
         run: echo "tag name should be same as tag version"
         run: exit 1
