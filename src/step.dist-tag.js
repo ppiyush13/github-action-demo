@@ -12,6 +12,6 @@ export const applyDistTags = distTags => {
         });
     }
     catch(ex) {
-        console.log('Dist-tagging failed, please consider doing it manually');
+        console.error('Dist-tagging failed, please consider doing it manually');
     }
 };

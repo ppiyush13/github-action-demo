@@ -1,5 +1,5 @@
 import got from "got";
-import { Url } from "../constants";
+import { Url } from "./constants";
 
 const distTagsResult = {
     result: {},
