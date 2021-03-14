@@ -8,6 +8,11 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+    - name: Checking tag name and tag version
+      if: github.event.release.tag_name != github.event.release.name
+      run: |
+        echo "Tag name must be same as tag version"
+        exit 1
     - uses: actions/checkout@v2
       with:
         ref: ${{ github.event.release.target_commitish }}
@@ -21,18 +26,11 @@ jobs:
     - run: git config --global user.email "github-actions[bot]@users.noreply.github.com"
     - run: npm run build
     - run: npm test
-    - run: npm version ${{ github.event.release.tag_name }}
-      env:
-        # Use a token to publish to NPM. See below for how to set it up
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-    # push the version changes to GitHub
-    - run: git push
-      env:
-        # The secret is passed automatically. Nothing to configure.
-        github-token: ${{ secrets.GITHUB_TOKEN }}
     - run: npm run release
       env:
         BRANCH_NAME: ${{github.event.release.target_commitish}}
         TAG_NAME: ${{github.event.release.tag_name}}
-        REPO: ${{github.repository}}
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    - run: git push
+      env:
+        github-token: ${{ secrets.GITHUB_TOKEN }} 
