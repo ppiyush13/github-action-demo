@@ -1,27 +1,15 @@
-import got from 'got';
 import semverMajor from 'semver/functions/major';
 import semverGt from 'semver/functions/gt';
-import { pkgMetadata, Url, LegacyBranch } from '../constants';
+import { Branch, LegacyBranch, Tag } from '../constants';
 import { throwError } from '../error';
+import { getDistTagVersion } from '../dist-tags';
 
-const getLatestVersion = async () => {
-    try {
-        const packageName = pkgMetadata.name;
-        const response = await got(Url.npm(packageName), {
-            responseType: 'json',
-        });
-        return response.body.collected.metadata.version;
-    }
-    catch(ex) {
-        if(ex.response && ex.response.statusCode === 404)
-            return undefined;
-        throw ex;
-    }
-};
-
-export const verifyMainAndNextVersion = (errorKey, { tagName }) => {
-    const latestVersion = await getLatestVersion();
-    if(latestVersion) 
+export const verifyMainAndNextVersion = ({ tagName, branchName }) => {
+    const { errorKey, tag} = branchName === Branch.next
+        ? { errorKey: 'invalidNextTag', tag: Tag.next}
+        : { errorKey: 'invalidMainTag', tag: Tag.latest};
+    const latestVersion = getDistTagVersion(tag);
+    if(latestVersion)
         return semverGt(tagName, latestVersion)
             ? true
             : throwError(errorKey, [tagName, latestVersion]);

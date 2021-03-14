@@ -6,7 +6,7 @@ export const applyDistTags = distTags => {
 
     try {
         distTags.map(tag => {
-            const command = `npm dist-tag add ${name}@${version} ${tag}`;
+            const command = `npm dist-tag add ${name()}@${version()} ${tag}`;
             console.log(`Executing command: ${command}`);
             shell.exec(command);
         });

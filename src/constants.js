@@ -1,9 +1,9 @@
+//import memoize from 'memoizee';
 import { exec } from './shell';
 
 /** urls */
 export const Url = {
-    npm: packageName => `https://api.npms.io/v2/package/${packageName}`,
-    github: (repo, branch) => `https://api.github.com/repos/${repo}/branches/${branch}`,
+    npm: 'https://registry.npmjs.org',
 };
 
 /** branch */
@@ -36,6 +36,10 @@ export const LegacyBranch = {
 };
 
 export const pkgMetadata = {
-    name: exec(`node -p "require('./package.json').name"`).trim(),
-    version: exec(`node -p "require('./package.json').version"`).trim(),
+    version: () => exec(`node -p "require('./package.json').version"`).trim(),
+    name: () => exec(`node -p "require('./package.json').name"`).trim(),
+    // name: memoize(
+    //     () => exec(`node -p "require('./package.json').name"`).trim(), 
+    //     { length: 0 }
+    // ),
 };
