@@ -1,4 +1,4 @@
-import shell from 'shelljs';
+import { exec } from './shell/exec';
 import { pkgMetadata } from './constants';
 
 export const applyDistTags = distTags => {
@@ -8,7 +8,7 @@ export const applyDistTags = distTags => {
         distTags.map(tag => {
             const command = `npm dist-tag add ${name()}@${version()} ${tag}`;
             console.log(`Executing command: ${command}`);
-            shell.exec(command);
+            exec(command);
         });
     }
     catch(ex) {

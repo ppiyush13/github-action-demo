@@ -1,5 +1,5 @@
-import shell from 'shelljs';
+import { exec } from './shell/exec';
 
 export const publish = (publishTag) => {
-    shell.exec(`npm publish --tag ${publishTag}`);
+    exec(`npm publish --tag ${publishTag}`);
 };

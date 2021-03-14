@@ -2,7 +2,7 @@ import nock from 'nock';
 import mockedEnv from 'mocked-env';
 import mockConsole from "jest-mock-console";
 import semverClean from 'semver/functions/clean';
-import { mockShell } from '../shell';
+import { mockShell } from '../shell/mock';
 import { Url } from '../constants';
 import { release } from '../release';
 import { getError } from '../error';
