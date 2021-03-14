@@ -94,6 +94,38 @@ describe('testing branching strategy', () => {
             ],
         },
         {
+            branch: 'main',
+            tag: 'v5.0.0',
+            previousDistTags: {
+                latest: '4.0.8',
+                next: '5.0.0-rc.2',
+            },
+            commands: [
+                `node -p "require('./package.json').name"`,
+                "npm version v5.0.0",
+                "npm publish --tag latest",
+                `node -p "require('./package.json').name"`,
+                `node -p "require('./package.json').version"`,
+                "npm dist-tag add demo-package@5.0.0 next",
+            ]
+        },
+        {
+            branch: 'main',
+            tag: 'v5.0.1',
+            previousDistTags: {
+                latest: '5.0.0',
+                next: '5.0.0-rc.2',
+            },
+            commands: [
+                `node -p "require('./package.json').name"`,
+                "npm version v5.0.1",
+                "npm publish --tag latest",
+                `node -p "require('./package.json').name"`,
+                `node -p "require('./package.json').version"`,
+                "npm dist-tag add demo-package@5.0.1 next",
+            ]
+        },
+        {
             branch: 'next',
             tag: 'v3.0.0-rc.0',
             previousDistTags: {
