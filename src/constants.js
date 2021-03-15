@@ -1,11 +1,6 @@
 //import memoize from 'memoizee';
 import { exec } from './shell/exec';
 
-/** urls */
-export const Url = {
-    npm: 'https://registry.npmjs.org',
-};
-
 /** branch */
 export const Branch = {
     main: 'main',

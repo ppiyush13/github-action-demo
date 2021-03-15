@@ -2,19 +2,22 @@ import nock from 'nock';
 import mockedEnv from 'mocked-env';
 import mockConsole from "jest-mock-console";
 import semverClean from 'semver/functions/clean';
+import { mockRegistry } from '../registry/mock';
 import { mockShell } from '../shell/mock';
-import { Url } from '../constants';
 import { release } from '../release';
 import { getError } from '../error';
+
+nock.disableNetConnect()
+mockRegistry('http://npm-registry-url');
 
 const mockNpmLatestVersion = previousDistTags => {
     const response = previousDistTags
         ? [ 200, { 'dist-tags': previousDistTags }]
         : [ 404, { "error": "Not found" } ];
 
-    nock(Url.npm)
+    nock('http://npm-registry-url')
         .get('/demo-package')
-        .reply(...response);
+        .reply(...response); 
 };
 
 describe('testing branching and tag strategy', () => {

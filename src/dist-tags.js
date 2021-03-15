@@ -1,5 +1,5 @@
 import got from "got";
-import { Url } from "./constants";
+import { getRegistryUrl } from './registry';
 
 const distTagsResult = {
     result: {},
@@ -8,7 +8,7 @@ const distTagsResult = {
 export const fetchDistTags = async packageName => {
     try {
         const response = await got(packageName, {
-            prefixUrl: Url.npm,
+            prefixUrl: getRegistryUrl(),
             responseType: 'json',
         });
         distTagsResult.result = response.body['dist-tags'];
