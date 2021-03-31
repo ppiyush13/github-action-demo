@@ -2,3 +2,4 @@ on branch 6
 Made as next
 
 Integration successful
+Make it as latest branch
