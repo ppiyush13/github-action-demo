@@ -1,4 +1,4 @@
 # github-action-demo
 
-node -r esm --inspect-brk node_modules\jest\bin\jest.js --runInBand assert
+This is demo repository to test `alpha-ci` with github actions
 
