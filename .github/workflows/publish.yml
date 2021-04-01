@@ -17,7 +17,7 @@ jobs:
       with:
         ref: ${{ github.event.release.target_commitish }}
     - name: Import GPG key
-      uses: crazy-max/ghaction-import-gpg
+      uses: crazy-max/ghaction-import-gpg@v3.1.0
       with:
         git_user_signingkey: true
         git_commit_gpgsign: true
