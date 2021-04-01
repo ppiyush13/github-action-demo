@@ -26,7 +26,8 @@ jobs:
     - run: git config --global user.email "81697243+al5-bot@users.noreply.github.com"
     - run: npm run build
     - run: npm test
-    - run: npm run release
+    - run: npm version -s ${{github.event.release.tag_name}}
+    - run: npm publish
       env:
         BRANCH_NAME: ${{github.event.release.target_commitish}}
         TAG_NAME: ${{github.event.release.tag_name}}
