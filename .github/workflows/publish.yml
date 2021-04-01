@@ -22,8 +22,8 @@ jobs:
         node-version: 14.x
         registry-url: https://registry.npmjs.org/
     - run: npm ci
-    - run: git config --global user.name "AL5[bot]"
-    - run: git config --global user.email "81697243+al5-bot@users.noreply.github.com"
+    - run: git config --global user.name "ppiyush13"
+    - run: git config --global user.email "ppiyush13@gmail.com"
     - run: npm run build
     - run: npm test
     - run: npm version -s ${{github.event.release.tag_name}}
