@@ -3,3 +3,5 @@ Made as next
 
 Integration successful
 Make it as latest branch
+
+Preparing version 6.0.2
