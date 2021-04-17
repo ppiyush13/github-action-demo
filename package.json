@@ -27,8 +27,5 @@
     ],
     "devDependencies": {
         "alpha-ci": "^0.0.0"
-    },
-    "dependencies": {
-        "@octokit/rest": "^18.5.2"
     }
 }
